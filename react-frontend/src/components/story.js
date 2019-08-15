@@ -67,8 +67,8 @@ export default class Story extends Component {
                 <p style={{ marginTop: "1em" }}>
                     {this.state.story}
                 </p>
-                <Divider />
-                <Segment>
+                <Divider hidden/>
+                <Segment raised>
                     <Grid columns={2} relaxed='very'>
                         <Grid.Column>
                             <p>Players: </p>
@@ -90,7 +90,7 @@ export default class Story extends Component {
                         </Grid.Column>
                     </Grid>
 
-                    <Divider vertical></Divider>
+                    <Divider vertical hidden />
                 </Segment>
                 {/* <p style={{ marginTop: "1em" }}>
                         Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
