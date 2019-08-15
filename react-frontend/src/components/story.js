@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { getFirebase, addWord, firebaseRef } from '../firebase';
-import { Button, Container, Form, Icon, Input, Segment, Radio } from 'semantic-ui-react';
+import { createUser, addWord, firebaseRef, createGame, getGame } from '../firebase';
+import { Button, Container, Divider, Form, Grid, Icon, Input, Segment, Radio } from 'semantic-ui-react';
 
 export default class Story extends Component {
 
@@ -12,38 +12,45 @@ export default class Story extends Component {
             game: {},
             story: "",
             currentInput: "",
-            gameId: this.props.gameId,
-            name: ""
         };
+
+        this.creating = false; // game creation in progress
     }
 
     componentDidMount() {
+        // listen to database updates and update state accordingly
         firebaseRef.child("games").on('value', (snapshot) => {
             let json = snapshot.val();
-            this.setState({ game: json[this.state.gameId] }, this.setStory);
+            console.log(json);
+            console.log(this.props.gameId);
+            console.log(json[this.props.gameId]);
+            this.setState({ game: json[this.props.gameId] }, this.setStory);
         });
     }
 
     setStory = () => {
+        // append array of words into a single "story" string
         if (this.state.game && this.state.game.story) {
             let story = this.state.game.story;
             let storyString = "";
             for (let word of Object.values(story)) {
-                storyString += word + " ";
+                storyString += word.value + " ";
             }
             this.setState({ story: storyString }, () => console.log(this.state.story));
         }
     }
 
     addToStory = () => {
-        addWord(this.state.gameId, this.state.currentInput); //"-Ll2kMaVAN7LeHFGpO8f"
+        console.log(this.props.gameId);
+        addWord(this.props.gameId, this.props.name, this.state.currentInput); //"-Ll2kMaVAN7LeHFGpO8f"
         this.setState({ currentInput: '' });
     }
 
     handleInput = (e, data) => this.setState({ currentInput: data.value });
-    startGame = () => this.setState({ started: true });
+    // startGame = () => this.setState({ started: true });
 
     render() {
+        console.log(this.state);
         return (
             <Segment inverted={this.props.inverted}>
                 <Form>
@@ -60,6 +67,31 @@ export default class Story extends Component {
                 <p style={{ marginTop: "1em" }}>
                     {this.state.story}
                 </p>
+                <Divider />
+                <Segment>
+                    <Grid columns={2} relaxed='very'>
+                        <Grid.Column>
+                            <p>Players: </p>
+                            <ul>
+                                {this.state.game && this.state.game.users ?
+                                    this.state.game.users.map((value, index) => {
+                                        return <li key={index}>{value.name === this.props.name ? value.name + " (You)" : value.name}</li>
+                                    })
+                                    :
+                                    <li>None</li>
+                                }
+                            </ul>
+                        </Grid.Column>
+                        <Grid.Column>
+                           <p>Game id:</p>
+                           <ul>
+                               <li>{this.props.gameId}</li>
+                           </ul>
+                        </Grid.Column>
+                    </Grid>
+
+                    <Divider vertical></Divider>
+                </Segment>
                 {/* <p style={{ marginTop: "1em" }}>
                         Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
                         Aenean massa strong. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur
