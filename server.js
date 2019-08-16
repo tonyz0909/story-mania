@@ -17,7 +17,7 @@ function startServer() {
   const app = express();
 
   // Redirect HTTP to HTTPS,
-//   app.use(redirectToHTTPS([/localhost:(\d{4})/], [], 301));
+  //   app.use(redirectToHTTPS([/localhost:(\d{4})/], [], 301));
 
 
   app.get('/firebase', firebase.getFirebase);
@@ -28,6 +28,11 @@ function startServer() {
   app.get('/addWord', firebase.addWord);
   app.get('/test', function (req, res) {
     res.send('Hello World!')
+  });
+
+  app.use(express.static('./build'));
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname + '/client/build/index.html'));
   });
 
 
