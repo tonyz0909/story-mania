@@ -45,7 +45,7 @@ export default class Welcome extends Component {
                                     <Input placeholder='Enter game id' className="margin" onChange={this.handleGameId} value={this.state.gameId} />
                                 </Form.Field>
                                 <Form.Field fluid>
-                                    <Input placeholder='Enter name' className="margin" onChange={this.handleName} value={this.state.name} />
+                                    <Input placeholder='Enter name' className="margin" onChange={this.handleName} />
                                 </Form.Field>
                                 <Button animated inverted color='blue' onClick={() => this.submit("join")}>
                                     <Button.Content visible>Join</Button.Content>
@@ -63,7 +63,7 @@ export default class Welcome extends Component {
                             </Header>
                             <Form>
                                 <Form.Field fluid>
-                                    <Input placeholder='Enter name' className="margin" onChange={this.handleName} value={this.state.name} />
+                                    <Input placeholder='Enter name' className="margin" onChange={this.handleName} />
                                 </Form.Field>
                                 <Button animated inverted color='blue' onClick={() => this.submit("create")}>
                                     <Button.Content visible>Create</Button.Content>

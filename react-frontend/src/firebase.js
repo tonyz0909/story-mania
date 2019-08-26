@@ -49,15 +49,15 @@ exports.createUser = function (gameId, user) {
     databaseRef.child(game + "/players").once("value").then(function (dataSnapshot) {
         console.log(dataSnapshot.val());
         let dataJson = dataSnapshot.val();
-        let currentId = parseInt(dataJson) + 1;
+        let currentPlayers = parseInt(dataJson) + 1;
         // create user with unique id and increment number of players
-        databaseRef.child(game + "/players").set(currentId, (error) => {
+        databaseRef.child(game + "/players").set(currentPlayers, (error) => {
             if (error) return "error: " + error;
         });
-        databaseRef.child(game + "/users/" + currentId).set({ name: user }, (error) => {
+        databaseRef.child(game + "/users/" + (currentPlayers-1)).set({ name: user }, (error) => {
             if (error) return "error: " + error;
         });
-        return "" + currentId;
+        return "" + currentPlayers-1;
     }).catch((err) => {
         console.error('Firebase error:', err.message);
     });;
@@ -65,8 +65,12 @@ exports.createUser = function (gameId, user) {
 
 // params: gameId, word
 exports.addWord = function (gameId, user, word) {
+    // add word
     let words = "games/" + gameId + "/story";
     databaseRef.child(words).push({ value: word, user: user });
+    // increment turn
+    let turn = "games/" + gameId + "/turn";
+    databaseRef.child(turn).transaction(currentRank => currentRank + 1);
     return "success";
 }
 
@@ -81,4 +85,6 @@ exports.getGame = function (gameId) {
             reject(err);
         });
     });
+
+// exports.changeGameMode = function()
 }
