@@ -68,7 +68,6 @@ export default class Story extends Component {
                 <p style={{ marginTop: "1em" }}>
                     {this.state.story || <span style={{ color: "gray" }}>Enter a word to start the story off!</span>}
                 </p>
-                <p>{this.state.turnBased ? "turn" : "free-for-all"}</p>
                 <Form>
                     <Form.Field fluid>
                         <Input placeholder='Enter a word...' className="margin" onChange={this.handleInput} value={this.state.currentInput} />

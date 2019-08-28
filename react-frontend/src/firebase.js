@@ -57,7 +57,7 @@ exports.createUser = function (gameId, user) {
         databaseRef.child(game + "/users/" + (currentPlayers-1)).set({ name: user }, (error) => {
             if (error) return "error: " + error;
         });
-        return "" + currentPlayers-1;
+        return "" + (currentPlayers-1);
     }).catch((err) => {
         console.error('Firebase error:', err.message);
     });;
