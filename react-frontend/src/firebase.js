@@ -35,7 +35,7 @@ exports.pushToFirebase = function (req, res) {
 // params: name
 exports.createGame = function (name) {
     return new Promise(function (resolve, reject) {
-        let game = databaseRef.child("games").push({ players: 1, turn: 0, users: { 0: { name: name }}}, (error) => {
+        let game = databaseRef.child("games").push({ players: 1, turn: 0, users: { 0: { name: name } }, turnBased: false }, (error) => {
             if (error) reject("error: " + error);
         });
         return resolve(game.key);
@@ -54,10 +54,10 @@ exports.createUser = function (gameId, user) {
         databaseRef.child(game + "/players").set(currentPlayers, (error) => {
             if (error) return "error: " + error;
         });
-        databaseRef.child(game + "/users/" + (currentPlayers-1)).set({ name: user }, (error) => {
+        databaseRef.child(game + "/users/" + (currentPlayers - 1)).set({ name: user }, (error) => {
             if (error) return "error: " + error;
         });
-        return "" + (currentPlayers-1);
+        return "" + (currentPlayers - 1);
     }).catch((err) => {
         console.error('Firebase error:', err.message);
     });;
@@ -85,6 +85,12 @@ exports.getGame = function (gameId) {
             reject(err);
         });
     });
+}
 
-// exports.changeGameMode = function()
+exports.changeTurnMode = function(gameId, currentMode) {
+    // change the turn mode to the opposite of the current turn mode
+    let turnBased = "games/" + gameId + "/turnBased";
+    console.log(!currentMode);
+    databaseRef.child(turnBased).set(!currentMode);
+    return "success";
 }
