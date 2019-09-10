@@ -1,5 +1,7 @@
 const firebase = require('firebase');
 
+const FirebaseConfig = /* insert firebase configuration here */
+
 firebase.initializeApp(FirebaseConfig);
 const databaseRef = firebase.database().ref();
 
