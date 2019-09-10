@@ -1,15 +1,5 @@
 const firebase = require('firebase');
 
-const FirebaseConfig = {
-    apiKey: "AIzaSyBVvoERxcerBb6M4lh2C3D-rZeYIKZUvjw",
-    authDomain: "react-game-78498.firebaseapp.com",
-    databaseURL: "https://react-game-78498.firebaseio.com",
-    projectId: "react-game-78498",
-    storageBucket: "react-game-78498.appspot.com",
-    messagingSenderId: "976787720562",
-    appId: "1:976787720562:web:2371c16988082bed"
-}
-
 firebase.initializeApp(FirebaseConfig);
 const databaseRef = firebase.database().ref();
 
