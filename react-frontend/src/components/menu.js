@@ -36,7 +36,8 @@ export default class MenuBar extends Component {
                     <Modal.Content>
                         <Modal.Description>
                             <Header>Story Mania</Header>
-                            <p>asdfasdfadsf</p>
+                            <p>An interactive multiplayer game where each person types in an extra word to form a story</p>
+                            <p>More features/information coming soon!</p>
                         </Modal.Description>
                     </Modal.Content>
                 </Modal>
